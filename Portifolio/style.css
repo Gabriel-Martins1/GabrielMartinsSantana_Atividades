@@ -1,0 +1,520 @@
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700;900&display=swap');
+@font-face {
+    font-family: 'Impact Regular';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Impact Regular'), url('./fonts/impact.woff') format('woff');
+}
+
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+
+main {
+    max-width: 1000px; /* Largura máxima do site */
+    margin: 0 auto;    /* Centralizar o main */
+    padding: 2rem;     /* o rem ajeita automaticamente, então nao preciso
+                         me preucupar com o site pra celular. */
+}
+
+/* padding serve pra nao ficar tudo grudado na borda */
+
+html {
+    scroll-behavior: smooth !important; /*Deixaz o scroll suav (Javascript) */
+    scroll-padding-top: 90px; /* Isso evita que o Header tampe o título da seção */
+}
+
+header h1 {
+    font-family: 'Inconsolata', monospace;
+    font-size: 2.5rem; /* Tamanho da fonte */
+    font-weight: bold; /* Deixa em negrito */
+    color: var(--cor-secundaria); /* Cor do texto */
+}
+
+
+
+
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 20px; 
+}
+
+.Interruptor {
+    margin-left: 10px; /* Se quiser separar apenas os ícones do interruptor */
+}
+
+
+
+nav ul {
+    display: flex; /* deixa a lista alinhada horizontalmente em vez de veerticalmente */
+    list-style: none; /* Tira as bolinhas das listas */
+    gap: 20px;        /* gap serve pra dar esoaço */
+}
+
+nav ul li a {
+    text-decoration: none; /* tira o sublinhado e a cara de link dos links */
+    color: var(--cor-texto); /* colocando a cor no texto*/
+    font-family: 'Inconsolata', monospace; /*fonte */
+    font-weight: bold; /* dando negrito */
+}
+
+
+
+/* Cor padrão dos ícones no topo (Header) */
+nav .sociais a {
+    color: var(--cor-texto);
+    font-size: 1.2rem;       
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+nav .sociais a:hover {
+    color: var(--cor-secundaria);
+    transform: scale(1.2);        
+}
+
+
+
+
+:root {
+    --cor-fundo: rgb(229,229,229);
+    --cor-secundaria: #9d2c2c;
+    --cor-texto: #4A4A4A;
+    --cor-header: rgba(255, 255, 255, 0.3); /* o 0.2 funciona pra dar aquele efeitinho transparente */
+
+}
+
+body{
+
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto);
+    transition: background-color 0.3s ease, color 0.3s ease; /* transição entre o modo escuro e claro ou vice e versa */
+/* ease faz com que a animação de troca de cor fique lenta, depois rapida e depois lenta dnv */
+}
+
+body.dark {
+    /* Um cinza bem escuro, mas não preto total */
+    --cor-fundo: #121212; 
+    
+    /* Um cinza claro levemente azulado para o texto não "gritar" no fundo */
+    --cor-texto: #e0e0e0; 
+    
+    /* Header e cards com um tom um pouco mais claro que o fundo para dar profundidade */
+    --cor-header: rgba(30, 30, 30, 0.8); 
+    
+    /* Opcional: Se quiser que o vermelho no dark seja mais vivo (menos "sangue") */
+    --cor-secundaria: #ff4d4d; 
+}
+
+
+body.dark .Fundo, 
+body.dark .projeto-card, 
+body.dark #experiencia article ul li {
+    background-color: #1e1e1e;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+header {
+    background-color: var(--cor-header);
+    backdrop-filter: blur(10px); /* Deixa o fundo embaçado pra dar o estilinho do cara que vi no git */
+    position: sticky; /* isso aqui faz o header aparecer mesmo que eu role a pagina pra baixp */
+    top: 0;
+    width: 100%;
+    z-index: 100; /* Faz o header ser a camda mais alta, daí nada, nenhuma imagem ou algo do tipo pode ficar em cima do header*/
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* faz uma bordinha pra nao se confundir o header com a pagina quando alguem scrollar pra baixo*/
+    padding: 1rem 2rem; /* dando um espaço no header pra n deixar tudo expremido*/
+}
+
+/* ajeitar a caixinha do modo escuro */
+#checkbox{
+
+    display: none; /* colocando isso pra desaparecer da tela, mas continuar funcionjando */
+
+}
+
+/* fazer o visual do local onde troca o tema  */
+.slider {
+    width: 44px;
+    height: 22px;
+    background-color: var(--cor-header); /* Usa a cor transparente */
+    border-radius: 50px; /* deixar arredondado */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* faz uma bordinha no interruptor */
+    position: relative; /* isso aqui faz a bolinha dentro do interruptor ter o espaço pra se mover APENAS dentro desse local*/
+    cursor: pointer; /* muda o mouse pra maozinha*/
+    display: flex;
+    align-items: center; /* faz o nnavegador calcular aonde que vai ficar a bolinha do interruptor*/
+    padding: 0 4px; /* preenchimento */
+    backdrop-filter: blur(4px); /* efeito embaçado */
+}
+
+.slider::before {   /* isso aqui cria um elemento sem precisar de HTML , aqui vai literalmente servir pra criar a bolinha dentro do interruptor */
+    content: "";  /*faz  o elemento existir, mesmo n tendo nada escrito dentro */
+    position: absolute; /*faz a mbolinha se mova livre dentro do interruptor */
+    width: 16px;     
+    height: 16px;     
+    background-color: rgb(202, 202, 202); /* Cor da bolinha*/
+    border-radius: 50%;     /* Deixa ela redonda */
+    top: 2px;         /* Distância do topo */
+    left: 3px;        /* Distância da esquerda */
+    transition: 0.3s ease; /* Faz a bolinha andar lentamente */
+}
+
+/* aqui é pra bolinha se movimentar realmente quando clicar */
+
+#checkbox:checked  + .slider::before { 
+    transform: translateX(22px); /* translateX faz a bolinha se movimentar a quantidade de pixels que eu pedir */
+    background-color: var(--cor-secundaria); /* mudar a cor da bolinha pra cor secundaria quando clicar */
+}
+
+
+.eu {
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center;     /* Centraliza verticalmente */
+    text-align: center;      /* Alinha o texto no meio */
+    padding: 100px 20px;     /* Dá um espaço generoso em cima e embaixo */
+    min-height: 40vh;        /* Faz a seção ocupar boa parte da tela inicial */
+}
+
+.conteudo h2 {
+    font-family: 'Inconsolata', monospace;
+    font-size: 3rem;         /* Aumenta bem o nome */
+    color: var(--cor-secundaria);
+    margin-bottom: 20px;
+    font-weight: 900;
+}
+
+.conteudo p {
+    font-size: 1.2rem;       /* Texto um pouco maior que o padrão */
+    max-width: 600px;        /* Limita a largura para não ficar uma linha gigante */
+    margin: 0 auto 10px;     /* Centraliza o parágrafo e dá espaçamento */
+    line-height: 1.6;        /* Melhora a leitura */
+}
+
+#experiencia h2{
+    text-align: center; /* texto no meiio*/
+    margin-top: 80px;
+    margin-bottom: 40px;  /* dá um espaço entre o tituilo e as grades*/
+    font-size: 2rem;       /* ajustaa o tamanho automaticamente*/
+    width: 100%;           
+
+}
+#contato {
+    width: 100%;
+    clear: both;
+    display: flex;
+    flex-direction: column; /* o flex coloca um do lado do outro, por isso coloca o cloumn, i=dai fica em colunas */
+    align-items: center;    /* agora coloca tudo no meio da tela */
+    padding-top: 100px;
+    padding: 50px 0;        /* separa umaa seção da outra */
+}
+
+.contato-botoes {
+    display: flex;   
+    gap: 20px;              /* Espaça os dois botoes*/
+    margin-top: 20px;    /* Dá um espaço entre o titulo e os botoes */
+}
+
+.btn-contato {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 24px;
+    border: 1px solid var(--cor-texto);
+    border-radius: 5px; /* Ou 50px para ficar redondinho */
+    text-decoration: none;
+    color: var(--cor-texto);
+    font-weight: bold;
+    transition: 0.3s all ease;  /* faz a animação de subida (o all é pra fazer isso com TODAS as coisas, por exemplo a cor indo gradualmente e lentamente) */
+}
+
+/*Hoverzinho (efeito no botão quando passa o mouse por cima) */
+.btn-contato:hover {
+    background-color: var(--cor-secundaria);
+    border-color: #c41b1b;
+    color: rgb(255, 255, 255);
+    transform: translateY(-5px); /* o -5px faz o botão ssubir 5 pixels no hover*/
+    box-shadow: 0 10px 20px rgba(211, 37, 37, 0.3);  /* dáa um brilhinho em volta do botão */
+    }
+
+#experiencia article ul {
+    
+    display: grid; /* transforma tudo em grades */
+    grid-template-columns: minmax(250px, 1fr) minmax(250px, 1fr) minmax(250px, 1fr) ; /* Cria colunas automáticas */
+    gap: 20px; /* dá uma separada nas grades*/
+    list-style: none; /* Tira as bolinhas da lista */
+    padding: 0;
+}
+
+
+
+#experiencia article ul li{
+    display: flex; /* transforma em flexivel*/
+    align-items: flex-start; /* puxa tudo pro inicio*/
+    flex-direction: column; /* transforma em colunas, dando uma organizada melhor */
+    background-color: var(--cor-header); /* cor do fundo de cada grade*/
+    border: 1px solid rgba(255, 255, 255, 0.109); /* coloca uma corzinha na borda*/
+    padding: 1.5rem; /* faz oss testos nao baterem na borda*/
+    border-radius: 12px; /* deixa a borda arredondada*/
+    transition: 0.3s all ease; /* faz a animação de subida (o all é pra fazer isso com TODAS as coisas, por exemplo a cor indo gradualmente e lentamente) */
+
+
+}
+
+#experiencia article ul li:hover {
+    border-color: var(--cor-secundaria);
+    transform: translateY(-10px); /* o -5px faz o botão ssubir 5 pixels no hover*/
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.347);  /* dáa um brilhinho em volta do botão */
+    
+
+}
+
+footer {
+    width: 100%; 
+    background-color: var(--cor-header); 
+    backdrop-filter: blur(10px); /* Dá o efeito de vidro */
+    padding: 40px 0; /* faz um espaaço pro texto n encostar nas bordas */
+    margin-top: 60px; /*separa o footer do contato*/
+    border-top: 1px solid rgba(255, 255, 255, 0.1); /* faz uma bordinha fina ewntre o site e o footer */
+}
+
+.footer-2 {
+    max-width: 1000px; /* Alinha com a largura do resto do seu site (o main) */
+    margin: 0 auto;    
+    display: flex;     
+    flex-direction: column; /* Coloca o texto em cima e os ícones embaixo */
+    align-items: center;    /* Centraliza os dois */
+    gap: 15px;         /* Da um espacinho entre o texto e os ícones */
+}
+
+.copyright {
+    font-family: 'Inconsolata', monospace; 
+    font-size: 0.9rem; 
+    opacity: 0.8; /* deixa o texto apagadinho */
+}
+
+footer .sociais a {
+    color: var(--cor-texto); /* Cor padrão do seu tema */
+    font-size: 1.5rem;      /* Deixa os ícones um pouco maiores e fáceis de clicar */
+    transition: 0.3s ease;  /* Prepara o terreno para o efeito de hover */
+}
+
+footer .sociais a:hover {
+    color: var(--cor-secundaria); /* Muda para vermelho quando o mouse passa */
+    transform: scale(1.2);        /* aumenta o tamanho do botão */
+
+}
+
+
+
+
+
+.habilidades-container {
+    display: grid;
+    grid-template-columns: minmax(200px, 1fr) minmax(200px, 1fr); 
+    gap: 30px;
+    justify-items: center;
+    margin-top: 40px;
+}
+
+.Fundo {
+    background-color: var(--cor-header);
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    width: 100%;
+    max-width: 250px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.Fundo:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.347);  /* dáa um brilhinho em volta do botão */
+}
+
+
+.grafico {
+    --w: 120px; /* Faz a largura do grafico*/
+    width: var(--w);
+    aspect-ratio: 1; 
+    display: inline-grid; /* alinha o texto com o circulo*/
+    place-content: center;
+    margin: 15px 0;
+    font-family: 'Inconsolata', monospace;
+    font-weight: bold;
+    font-size: 1.2rem;
+    position: relative;
+}
+
+.grafico:before {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    inset: 0;
+    background: conic-gradient(var(--c) calc(var(--p)*1%), rgba(0,0,0,0.1) 0);
+    mask: radial-gradient(farthest-side, transparent calc(99% - 10px), #fff calc(100% - 10px)); /* Apaga o meiozinho pra aparecer a prorcentagem escrita */
+}
+
+
+
+#projetos {
+    width: 100%; 
+    padding-top: 80px; 
+}
+
+.projetos-grid {
+    display: grid;
+    grid-template-columns:minmax(300px, 1fr);
+    gap: 30px;
+    margin-top: 40px;
+}
+
+
+.projeto-card {
+    background-color: var(--cor-header);
+    border-radius: 15px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.projeto-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--cor-secundaria);
+}
+
+/* imagem do projeto*/
+.projeto-img {
+    width: 100%;
+    height: 400px;
+}
+
+.projeto-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+}
+
+
+.projeto-info {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px; 
+}
+
+.projeto-info h3 {
+    margin: 0;
+    color: var(--cor-secundaria);
+    font-size: 1.4rem;
+}
+/* ajeitadinha na info */
+.projeto-info p {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* ajeitadinha nas tags */
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.tags span {
+    background-color: rgba(157, 44, 44, 0.1);
+    color: var(--cor-secundaria);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    border: 1px solid rgba(157, 44, 44, 0.2);
+}
+
+/* O Botaozinho do github no Card */
+.projeto-links {
+    margin-top: auto; 
+    padding-top: 10px;
+}
+
+.btn-projeto {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background-color: transparent;
+    color: var(--cor-secundaria);
+    border: 1px solid var(--cor-secundaria);
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.9rem;
+    transition: 0.3s ease;
+}
+
+.btn-projeto:hover {
+    background-color: var(--cor-secundaria);
+    color: white;
+}
+
+#projetos h2 {
+    text-align: center;
+    margin-top: 120px; 
+    margin-bottom: 50px; 
+
+}
+
+
+#Habilidades h2 {
+        text-align: center; /* texto no meiio*/
+    margin-top: 80px;
+    margin-bottom: 40px;  /* dá um espaço entre o tituilo e as grades*/
+    font-size: 2rem;       /* ajustaa o tamanho automaticamente*/
+    width: 100%;           
+}
+
+/* Modificacao pra ficar bom em telas de tamanhos diferentes */
+
+/* Quando a tela for menor que 768px... */
+@media (max-width: 768px) {
+    
+    nav {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    nav ul {
+        gap: 10px;
+        flex-wrap: wrap; /* ele quebra linha se n tiver espaço o suficiente */
+        justify-content: center;
+    }
+
+    .conteudo h2 {
+        font-size: 2rem; 
+    }
+
+    #experiencia article ul, 
+    .projetos-grid, 
+    .habilidades-container {
+        grid-template-columns: 1fr !important; /* Tudo vira uma coluna única */
+    }
+
+
+    .projeto-img {
+        height: 250px;
+    }
+}
